@@ -6,12 +6,15 @@ class Request {
     private $action;
     private $defaultController = 'home';
     private $defaultAction = 'index';
+    private $params = array();
+
     public function __construct($url)
     {
         $this->url = $url;
         $segments = explode('/', $this->url);
         $this->resolverController($segments);
         $this->resolverAction($segments);
+        $this->resolveParams($segments);
     }
 
     public function resolverController(&$segments)
@@ -31,6 +34,11 @@ class Request {
             $this->action = $this->defaultAction;
         }
     }
+
+    public function resolveParams(&$segments){
+        $this->params = $segments;
+    }
+
     public function getUrl()
     {
         return $this->url;
@@ -49,14 +57,41 @@ class Request {
 
     public function getControllerFileName()
     {
-        return 'controller/' . $this->getControllerClassName() . '.php';
+        return 'controllers/' . $this->getControllerClassName() . '.php';
     }
 
-    public function getAction(){
-        return $this->$action;
+    public function getAction()
+    {
+        return $this->action;
     }
 
-    public function getActionName(){
-        return '';
+    public function getActionMethodName()
+    {
+        return Inflector::lowerCamel($this->getAction() . 'Action');
+    }
+    
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    public function execute()
+    {
+        $controllerClassName = $this->getControllerClassName();
+        $controllerFileName = $this->getControllerFileName();
+        $actionMethodName = $this->getActionMethodName();
+        $params = $this->getParams();
+        var_dump($controllerFileName);
+        var_dump($actionMethodName);
+        var_dump($params);
+        echo "<h3>-------------------------------------------------------------------------------------</h3>";
+        if(!file_exists($controllerFileName))
+        {
+            exit('Controller does not exist');
+        }
+
+        require $controllerFileName;
+        $controller = new $controllerClassName();
+        $controller->$actionMethodName();
     }
 }

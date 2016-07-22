@@ -17,7 +17,10 @@ else{
 }
 
 $request = new Request($url);
+$request->execute();
 //echo '<h1>'.$request->getUrl().'</h1>';
-var_dump($request->getControllerClassName());
-exit();
+//var_dump($request->getActionMethodName());
+//echo "</ br>";
+//var_dump($request->getParams());
+//exit();
 //run_controller($request->getControllerClassName());

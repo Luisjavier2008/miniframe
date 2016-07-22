@@ -1,19 +1,16 @@
 <?php
 
-class ContactosController {
+class HomeController {
     public function  indexAction()
     {
         $language = "lol";
-        $title = "Contactos";
-
+        $title = "this is a simple framework";
         view('main', array('language' => $language, 'title' => $title));
-
-    }
-
-    public function  cityAction($city)
-    {
-
     }
 
 }
+
+
+?>
+
 

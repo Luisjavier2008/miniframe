@@ -12,4 +12,10 @@ class Inflector
         return implode('', $segments);
 
     }
+
+    public static function lowerCamel($value){
+
+        return lcfirst(self::camel($value));
+
+    }
 }
