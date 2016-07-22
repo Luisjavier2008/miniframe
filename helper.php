@@ -8,6 +8,7 @@ function view($template, $vars)
 }
 
 function run_controller($name){
+//	$name =  $request->getUrl();
 	if(empty($name)){
 		$name = 'main';
 	}
